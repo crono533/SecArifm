@@ -149,7 +149,12 @@ int main()
         {
             cout << "Sym " << pair.first << " freq: " << pair.second << endl;
         }
-        
+        list<Range> rangesOfSymbols; // список для диапазона символов
+        Create_sorted_list_of_ranges(rangesOfSymbols, symbolsMap);
+        for (auto &pair : rangesOfSymbols)
+        {
+            cout << "Symool: " << pair.symbol << " left: " << pair.left << " right " << pair.right << " freq: " << pair.frequency << endl;
+        }
     }
     else
     {
