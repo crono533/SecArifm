@@ -4,6 +4,8 @@
         "istream": "cpp",
         "utility": "cpp",
         "xstring": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "map": "cpp",
+        "iosfwd": "cpp"
     }
 }

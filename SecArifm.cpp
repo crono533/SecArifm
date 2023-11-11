@@ -51,6 +51,31 @@ void Create_sorted_list_of_ranges(list<Range> &rangesOfSymbols, map<char, int> &
     }
 }
 
+unsigned long long Parse_table_from_file(map<char, int> &symbolsMap, ifstream &table) // Для чтения таблицы
+{
+    int key, q;                        // Объявление переменных для частоты символа и количества символов
+    unsigned long long len = 0;        // Объявление переменной для общей длины данных
+    table.read((char *)&q, sizeof(q)); // Чтение количества символов из файла
+    char s;                            // Объявление переменной для символа
+    // cout << "TEST IN PARSE Q" << q << endl;
+    for (int i = 0; i < q; i++)
+    {
+        table.read((char *)&s, sizeof(s)); // читаем символ
+        // cout << "TEST IN PARSE 1 "<< endl;
+        table.read((char *)&key, sizeof(key)); // читаем кол-во
+        symbolsMap[s]++;
+        for(auto &pair : symbolsMap)
+        {
+            if(pair.first == s)
+            {
+                pair.second = key;
+            }
+        }
+        len += key;
+    }
+    return len;
+}
+
 int main()
 {
     int menuFlag = 0;
@@ -95,9 +120,9 @@ int main()
         {
             howManySymbolsInText += pair.frequency;
         }
-        //посчитали в цикле сколько символов в тексте, чтобы при декодировании остановится
-        outputFile.write(reinterpret_cast<const char*>(&howManySymbolsInText), sizeof(howManySymbolsInText));
-
+        //теперь занесем в таблицу число элементов в словаре
+        int sizeOfMap = symbolsMap.size();
+        outputFile.write(reinterpret_cast<const char*>(&sizeOfMap), sizeof(sizeOfMap));
         //тут в цикле записали таблицу
         for (const auto &pair : rangesOfSymbols)
         {
@@ -110,8 +135,21 @@ int main()
             outputFile.write(reinterpret_cast<const char *>(&freq), sizeof(freq));
         }
     }
-    else if (menuFlag == 0)
+    else if (menuFlag == 2)
     {
+        ifstream inputFile("encode.txt", ios::binary);
+        if(!inputFile.is_open())
+        {
+            cout << "Не удалось открыть файл на запись";
+            return 0;
+        }
+        map<char, int> symbolsMap;
+        int countOfSymbols = Parse_table_from_file(symbolsMap, inputFile);
+        for(auto &pair : symbolsMap)
+        {
+            cout << "Sym " << pair.first << " freq: " << pair.second << endl;
+        }
+        
     }
     else
     {
