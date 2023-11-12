@@ -122,9 +122,9 @@ int main()
             return 0;
         }
 
-        fn << " " << '\n';
-        fn.clear();
-        fn.close();
+        // fn << " " << '\n';
+        // fn.clear();
+        // fn.close();
 
         ifstream fin("input.txt", ios::binary);
         if (!fin.is_open())
@@ -313,7 +313,7 @@ int main()
             }
             fout.write((char*)(&(it->c)), sizeof(it->c));
             len--;
-            cout << "LEN IN MAIN:" << len << endl;
+            //cout << "LEN IN MAIN:" << len << endl;
         }
 
         fin.close();
